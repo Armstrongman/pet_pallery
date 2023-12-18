@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "369471422397",
+    "project_id": "capstone-d67ef",
+    "storage_bucket": "capstone-d67ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369471422397:android:3089a96cd17c8ae5a31cd4",
+        "android_client_info": {
+          "package_name": "com.example.pet_pallery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5-nIctSPverOI78rAp1DdaNzJmK6dEfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
