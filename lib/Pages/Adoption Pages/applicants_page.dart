@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -67,12 +69,22 @@ class _ApplicantsPageState extends State<ApplicantsPage> {
                           ),
                           margin: EdgeInsets.symmetric(vertical: 8.0),
                           padding: EdgeInsets.all(16.0),
-                          child: Column(
+                          child: Row(children: [
+                            Column(
+                              children: const [
+                                Image(
+                                  image: AssetImage('Assets/Images/user-placeholder.png'),
+                                  width: 50,
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 15.0,),
+                            Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // Showing the Name data
                               Text(
-                                'Name: ${data['Name']}',
+                                '${data['Name']}',
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 8.0),
@@ -87,6 +99,27 @@ class _ApplicantsPageState extends State<ApplicantsPage> {
                               ),
                             ],
                           ),
+                          ],)
+                          // child: Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     // Showing the Name data
+                          //     Text(
+                          //       '${data['Name']}',
+                          //       style: TextStyle(fontWeight: FontWeight.bold),
+                          //     ),
+                          //     SizedBox(height: 8.0),
+                          //     // Showing the PhoneNumber data
+                          //     Text(
+                          //       'Phone #: ${data['PhoneNumber']}',
+                          //     ),
+                          //     SizedBox(height: 8.0),
+                          //     // Showing the Reason data
+                          //     Text(
+                          //       'Reason: ${data['Reason']}',
+                          //     ),
+                          //   ],
+                          // ),
                         );
                       }).toList(),
                     ),
