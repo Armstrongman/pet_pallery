@@ -84,7 +84,7 @@ class _AdoptionPage extends State<AdoptionPage> {
                 stream: FirebaseFirestore.instance
                     .collection('AdoptionProfiles')
                     .where('UserId', isNotEqualTo: currentUser.uid)
-                    //.where('TypeOfPet', isEqualTo: selectedAnimal) /*NEED TO FIX LATER*/
+                    .where('TypeOfPet', isEqualTo: selectedAnimal) /*NEED TO FIX LATER*/
                     .snapshots(),
                 // Taking the data from the stream above
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

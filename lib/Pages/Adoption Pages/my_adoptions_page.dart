@@ -24,6 +24,11 @@ class _MyAdoptionsPageState extends State<MyAdoptionsPage> {
       .collection('AdoptionProfiles')
       .doc(documentId)
       .delete();
+
+    // Delete all applicants that are associated with the adoption profile
+    // FirebaseFirestore.instance
+    //   .collection('Applicants')
+    //   .where('UserId', isEqualTo: documentId);
   }
   @override
 Widget build(BuildContext context) {
