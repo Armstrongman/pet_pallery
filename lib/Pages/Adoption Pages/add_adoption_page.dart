@@ -42,7 +42,7 @@ class _AddAdoptionPageState extends State<AddAdoptionPage> {
         'Description': descriptionController.text,
         'Location': locationController.text,
         'TypeOfPet': _selectedAnimal,
-        'UserId': currentUser.uid
+        'UserId': currentUser.email
     });
     // Pop up back to the previous screen (My Adoptions Page) after submitting
     Navigator.pop(context);

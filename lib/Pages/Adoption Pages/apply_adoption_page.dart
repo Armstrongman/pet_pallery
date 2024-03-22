@@ -44,8 +44,7 @@ class _ApplyForAdoptionState extends State<ApplyForAdoption> {
         'PhoneNumber': phoneController.text,
         'Reason': reasonController.text,
         'AdoptionId': widget.documentId,
-        'UserId': currentUser.uid
-
+        'UserId': currentUser.email
     });
     // Go back to the adoption home page
     Navigator.pop(context);
