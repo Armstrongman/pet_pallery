@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_pallery/Pages/User%20Pages/user_page.dart';
 
 class ApplicantsPage extends StatefulWidget {
   // String that will be passed into the constructor informing the widget what the id of the Adoption Profile is
@@ -71,10 +72,21 @@ class _ApplicantsPageState extends State<ApplicantsPage> {
                           padding: EdgeInsets.all(16.0),
                           child: Row(children: [
                             Column(
-                              children: const [
-                                Image(
-                                  image: AssetImage('Assets/Images/user-placeholder.png'),
-                                  width: 50,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // Navigate to the user's page with the corresponding document ID
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => UserPage(documentId: '${data['UserId']}'),
+                                      ),
+                                    );
+                                  },
+                                  child: Image(
+                                    image: AssetImage('Assets/Images/user-placeholder.png'),
+                                    width: 50,
+                                  ),
                                 ),
                               ],
                             ),
