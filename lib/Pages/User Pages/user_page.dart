@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_pallery/Pages/Pet%20Pages/pet_page.dart';
 
 class UserPage extends StatefulWidget {
   final String documentId;
@@ -56,6 +57,7 @@ class _UserPageState extends State<UserPage> {
 
             // Retrieve user data from snapshot
             var userData = snapshot.data!.data() as Map<String, dynamic>;
+            var userId = snapshot.data!.id;
             var userName = userData['username'] ?? 'Unknown User';
 
             return Column(
@@ -81,33 +83,76 @@ class _UserPageState extends State<UserPage> {
                   width: double.infinity,
                   color: Colors.grey,
                 ),
-                // Other content of the user page
+                SizedBox(height: 16),
+                // An expanded widget that lets us see a list view of all the current user's adoption profiles
+                Expanded(
+                  child: StreamBuilder(
+                    // Only grabbing the AdoptionProfiles where the instance's UserId is equal to the current user's id
+                    stream: FirebaseFirestore.instance
+                        .collection('PetProfiles')
+                        .where('UserId', isEqualTo: userId)
+                        .snapshots(),
+                    // Taking the data from the stream above
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      // An error occured when attempting to grab the data
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+                      // The user currently does not have an adoption profile they have made yet
+                      if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+                        return Center(child: Text('You currently have no pets on your page'));
+                      }
+                      // Building out a list view with the data in the snapshot
+                      return Container(
+                        padding: EdgeInsets.all(16.0),
+                        child: ListView(
+                          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                            Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                            return GestureDetector(
+                              onTap: () {
+                                // Going to the page by passing in the documentId into the ApplicantsPage's constructor
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => PetPage(documentId: document.id)),
+                                );
+                              },
+                              child: Card(
+                                elevation: 4.0, // Add elevation for a shadow effect
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              margin: EdgeInsets.symmetric(vertical: 8.0),
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Column(
+                                  children: [
+                                    // Show the PetName in the middle of the card
+                                    Text(
+                                      data['PetName'],
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    // Add other details or buttons as needed
+                                  ],
+                                ),
+                              ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             );
           },
         ),
       ),
-      // body: SafeArea(
-      //   child: Center(
-      //     child: Column(
-      //     crossAxisAlignment: CrossAxisAlignment.center,
-      //     children: [
-      //       SizedBox(height: 20), // Add some space between app bar and profile picture
-      //       CircleAvatar( // Display user's profile picture
-      //         radius: 40,
-      //         backgroundImage: AssetImage('Assets/Images/user-placeholder.png'),
-      //       ),
-      //       SizedBox(height: 10),
-      //       Container( // Display a visible line below the profile picture
-      //         width: double.infinity,
-      //         height: 2,
-      //         color: Colors.grey,
-      //       ),
-      //       // Add other widgets to display user's profile information below the line
-      //     ],
-      //   ),
-      //   )
-      // ),
     );
   }
 }
