@@ -21,6 +21,17 @@ class _AdoptionPage extends State<AdoptionPage> {
     final currentUser = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 100.0),
+            child: Image.asset(
+          'Assets/Images/logo-placeholder.png',
+          width: 140,
+        ),
+        )
+        ] 
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

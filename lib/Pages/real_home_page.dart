@@ -14,6 +14,17 @@ class _RealHomePageState extends State<RealHomePage> {
   // Temporary simple widget to show the home page
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 100.0),
+            child: Image.asset(
+          'Assets/Images/logo-placeholder.png',
+          width: 140,
+        ),
+        )
+        ] 
+      ),
       body: SafeArea(
         child: Center(
           child: Padding(
