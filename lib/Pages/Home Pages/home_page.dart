@@ -25,11 +25,6 @@ class _HomePageState extends State<HomePage> {
 
   int pageIndex = 0;
 
-  // Simple method that lets the user sign out
-  void signOut(){
-    FirebaseAuth.instance.signOut();
-  }
-
   // Method allows user to navigate between pages based on which tab they selected (goes by index)
   void navigateBar(int index){
     setState(() {
@@ -41,13 +36,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text("This is the app"),
-          // Icon that is a button that allows user to sign out when pressed on
-          actions: [
-            IconButton(onPressed: signOut, icon: Icon(Icons.logout)),
-          ],  
-        ),
         body: pages[pageIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: pageIndex,
