@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_pallery/Pages/Pet%20Pages/add_pet_page.dart';
 import 'package:pet_pallery/Pages/Pet%20Pages/edit_pet_page.dart';
+import 'package:pet_pallery/Pages/Pet%20Pages/pet_page.dart';
 import 'package:pet_pallery/Pages/User%20Pages/edit_user_page.dart';
 
 class CurrentUserPage extends StatefulWidget {
@@ -145,8 +146,16 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
                         child: ListView(
                           children: snapshot.data!.docs.map((DocumentSnapshot document) {
                             Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                            return Card(
-                              elevation: 4.0, // Add elevation for a shadow effect
+                            return GestureDetector(
+                              onTap: () {
+                                // Going to the page by passing in the documentId into the ApplicantsPage's constructor
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => PetPage(documentId: document.id)),
+                                );
+                              },
+                              child: Card(
+                                elevation: 4.0, // Add elevation for a shadow effect
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
@@ -190,7 +199,54 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
                                   ],
                                 ),
                               ),
+                              ),
                             );
+                            // return Card(
+                            //   elevation: 4.0, // Add elevation for a shadow effect
+                            //   shape: RoundedRectangleBorder(
+                            //     borderRadius: BorderRadius.circular(8.0),
+                            //   ),
+                            //   margin: EdgeInsets.symmetric(vertical: 8.0),
+                            //   child: Padding(
+                            //     padding: EdgeInsets.all(16.0),
+                            //     child: Column(
+                            //       children: [
+                            //         // Popup menu button for edit and delete options
+                            //         PopupMenuButton(
+                            //           itemBuilder: (context) => [
+                            //             PopupMenuItem(
+                            //               value: 'edit',
+                            //               child: Text('Edit'),
+                            //             ),
+                            //             PopupMenuItem(
+                            //               value: 'delete',
+                            //               child: Text('Delete'),
+                            //             ),
+                            //           ],
+                            //           onSelected: (String value) {
+                            //             if (value == 'edit') {
+                            //               // Going to the page by passing in the documentId into the ApplicantsPage's constructor
+                            //               Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(builder: (context) => EditPetPage(documentId: document.id)),
+                            //               );
+                            //             } else if (value == 'delete') {
+                            //               deletePet(document.id);
+                            //             }
+                            //           },
+                            //         ),
+                            //         // Show the PetName in the middle of the card
+                            //         Text(
+                            //           data['PetName'],
+                            //           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+                            //           textAlign: TextAlign.center,
+                            //         ),
+                            //         SizedBox(height: 8.0),
+                            //         // Add other details or buttons as needed
+                            //       ],
+                            //     ),
+                            //   ),
+                            // );
                           }).toList(),
                         ),
                       );
