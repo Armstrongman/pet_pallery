@@ -24,11 +24,12 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
     getUsername();
   }
 
-    // Simple method that lets the user sign out
+  // Simple method that lets the user sign out
   void signOut(){
     FirebaseAuth.instance.signOut();
   }
 
+  // Getting the username of the currently logged in user
   void getUsername() async {
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
       .collection('Users')
@@ -46,7 +47,7 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
       }
   }
 
-   // Method to delete an Adoption, passing in the documentId to specify which one we want to delete
+   // Method to delete a Pet, passing in the documentId to specify which one we want to delete
   void deletePet(String documentId)
   {
     // Go into firebase and retrieve the instance associated with the doumentId and then delete it
@@ -64,6 +65,7 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            // Button to allow the user to logout
             IconButton(
               onPressed: signOut,
               icon: Icon(Icons.logout),
@@ -72,6 +74,7 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
               'Assets/Images/logo-placeholder.png',
               width: 140,
             ),
+            // Button to allow the user to edit their profile
             IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
@@ -92,7 +95,7 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
             child: Column(
               children: [
                 SizedBox(height: 10),
-                // Profile picture and edit button
+                // Profile picture
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -104,7 +107,7 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
                   ],
                 ),
                 SizedBox(height: 10),
-                // // Username
+                // Username of user
                 Text(
                   username,
                   style: TextStyle(
@@ -119,10 +122,10 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
                   color: Colors.grey,
                 ),
                 SizedBox(height: 16),
-                // An expanded widget that lets us see a list view of all the current user's adoption profiles
+                // An expanded widget that lets us see a list view of all the current user's pets
                 Expanded(
                   child: StreamBuilder(
-                    // Only grabbing the AdoptionProfiles where the instance's UserId is equal to the current user's id
+                    // Only grabbing the PetProfiles where the instance's UserId is equal to the current user's id
                     stream: FirebaseFirestore.instance
                         .collection('PetProfiles')
                         .where('UserId', isEqualTo: currentUser.email)
@@ -146,14 +149,16 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
                         child: ListView(
                           children: snapshot.data!.docs.map((DocumentSnapshot document) {
                             Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                            // Allowing the card to be able to be tapped on to view the pet profile
                             return GestureDetector(
                               onTap: () {
-                                // Going to the page by passing in the documentId into the ApplicantsPage's constructor
+                                // Going to the page by passing in the documentId into the PetPage's constructor
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => PetPage(documentId: document.id)),
                                 );
                               },
+                              // Showing Pet Profile in a card view
                               child: Card(
                                 elevation: 4.0, // Add elevation for a shadow effect
                               shape: RoundedRectangleBorder(
@@ -167,10 +172,12 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
                                     // Popup menu button for edit and delete options
                                     PopupMenuButton(
                                       itemBuilder: (context) => [
+                                        // Edit option
                                         PopupMenuItem(
                                           value: 'edit',
                                           child: Text('Edit'),
                                         ),
+                                        // Delete option
                                         PopupMenuItem(
                                           value: 'delete',
                                           child: Text('Delete'),
@@ -178,11 +185,12 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
                                       ],
                                       onSelected: (String value) {
                                         if (value == 'edit') {
-                                          // Going to the page by passing in the documentId into the ApplicantsPage's constructor
+                                          // Going to the page by passing in the documentId into the EditPetPage's constructor
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(builder: (context) => EditPetPage(documentId: document.id)),
                                           );
+                                          // Calling deletePet method to delete the pet profile in firebase
                                         } else if (value == 'delete') {
                                           deletePet(document.id);
                                         }
@@ -195,58 +203,11 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
                                       textAlign: TextAlign.center,
                                     ),
                                     SizedBox(height: 8.0),
-                                    // Add other details or buttons as needed
                                   ],
                                 ),
                               ),
                               ),
                             );
-                            // return Card(
-                            //   elevation: 4.0, // Add elevation for a shadow effect
-                            //   shape: RoundedRectangleBorder(
-                            //     borderRadius: BorderRadius.circular(8.0),
-                            //   ),
-                            //   margin: EdgeInsets.symmetric(vertical: 8.0),
-                            //   child: Padding(
-                            //     padding: EdgeInsets.all(16.0),
-                            //     child: Column(
-                            //       children: [
-                            //         // Popup menu button for edit and delete options
-                            //         PopupMenuButton(
-                            //           itemBuilder: (context) => [
-                            //             PopupMenuItem(
-                            //               value: 'edit',
-                            //               child: Text('Edit'),
-                            //             ),
-                            //             PopupMenuItem(
-                            //               value: 'delete',
-                            //               child: Text('Delete'),
-                            //             ),
-                            //           ],
-                            //           onSelected: (String value) {
-                            //             if (value == 'edit') {
-                            //               // Going to the page by passing in the documentId into the ApplicantsPage's constructor
-                            //               Navigator.push(
-                            //                 context,
-                            //                 MaterialPageRoute(builder: (context) => EditPetPage(documentId: document.id)),
-                            //               );
-                            //             } else if (value == 'delete') {
-                            //               deletePet(document.id);
-                            //             }
-                            //           },
-                            //         ),
-                            //         // Show the PetName in the middle of the card
-                            //         Text(
-                            //           data['PetName'],
-                            //           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
-                            //           textAlign: TextAlign.center,
-                            //         ),
-                            //         SizedBox(height: 8.0),
-                            //         // Add other details or buttons as needed
-                            //       ],
-                            //     ),
-                            //   ),
-                            // );
                           }).toList(),
                         ),
                       );

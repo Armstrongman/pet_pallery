@@ -18,8 +18,8 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   late Future<DocumentSnapshot> _userFuture;
 
-  
-@override
+  // Initializing the state of the page by getting this user's info
+  @override
   void initState() {
     super.initState();
     _userFuture = FirebaseFirestore.instance
@@ -64,12 +64,12 @@ class _UserPageState extends State<UserPage> {
               children: [
                 // Profile picture
                 SizedBox(height: 20),
-                CircleAvatar( // Display user's profile picture
+                CircleAvatar(
                   radius: 35,
                   backgroundImage: AssetImage('Assets/Images/user-placeholder.png'),
                 ),
                 SizedBox(height: 10),
-                // Username
+                // User's Username
                 Text(
                   userName,
                   style: TextStyle(
@@ -84,10 +84,10 @@ class _UserPageState extends State<UserPage> {
                   color: Colors.grey,
                 ),
                 SizedBox(height: 16),
-                // An expanded widget that lets us see a list view of all the current user's adoption profiles
+                // An expanded widget that lets us see a list view of all the user's pets
                 Expanded(
                   child: StreamBuilder(
-                    // Only grabbing the AdoptionProfiles where the instance's UserId is equal to the current user's id
+                    // Only grabbing this user's pets based off of the users id (email)
                     stream: FirebaseFirestore.instance
                         .collection('PetProfiles')
                         .where('UserId', isEqualTo: userId)
@@ -111,16 +111,18 @@ class _UserPageState extends State<UserPage> {
                         child: ListView(
                           children: snapshot.data!.docs.map((DocumentSnapshot document) {
                             Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                            // Allows user to tap on card in order to visit the pet's profile
                             return GestureDetector(
                               onTap: () {
-                                // Going to the page by passing in the documentId into the ApplicantsPage's constructor
+                                // Going to the page by passing in the documentId into the PetPage's constructor
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => PetPage(documentId: document.id)),
                                 );
                               },
+                              // Showing the pet information in a card
                               child: Card(
-                                elevation: 4.0, // Add elevation for a shadow effect
+                                elevation: 4.0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
@@ -136,7 +138,6 @@ class _UserPageState extends State<UserPage> {
                                       textAlign: TextAlign.center,
                                     ),
                                     SizedBox(height: 8.0),
-                                    // Add other details or buttons as needed
                                   ],
                                 ),
                               ),

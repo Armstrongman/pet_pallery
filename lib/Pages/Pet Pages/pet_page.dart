@@ -18,13 +18,16 @@ class _PetPageState extends State<PetPage> {
     fetchPetData();
   }
 
+  // Fetching the data of the pet to show information of it on the page
   void fetchPetData() async {
+    // Attempting to fetch the data. If it couldn't, catch it
     try {
       DocumentSnapshot petSnapshot = await FirebaseFirestore.instance
           .collection('PetProfiles')
           .doc(widget.documentId)
           .get();
 
+      // Just getting the name for the time being
       if (petSnapshot.exists) {
         setState(() {
           petName = petSnapshot['PetName'];
@@ -55,7 +58,8 @@ class _PetPageState extends State<PetPage> {
       body: (
         Center(
           child: Text(
-          petName.isNotEmpty ? petName : 'Loading...', // Show loading text if pet name is empty
+          // Show loading text if pet name is empty
+          petName.isNotEmpty ? petName : 'Loading...',
           style: TextStyle(fontSize: 24.0),
         ),
         )

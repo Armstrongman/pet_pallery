@@ -17,16 +17,16 @@ class _EditPetPageState extends State<EditPetPage> {
   // Text field controllers to grab the text in those field for submission to help push to firebase
   final petNameController = TextEditingController();
 
-  // When the page is first initialized, call the load Adoption method
+  // When the page is first initialized, call the load Pet method
   @override
   void initState() {
     super.initState();
-    loadAdoption();
+    loadPet();
   }
 
   // Method for when the page first loads up to show data
-  void loadAdoption() async{
-    // Getting the instance of the AdoptionProfile by using the passed in documentId
+  void loadPet() async{
+    // Getting the instance of the PetProfile by using the passed in documentId
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
       .collection('PetProfiles')
       .doc(widget.documentId)
@@ -54,15 +54,15 @@ class _EditPetPageState extends State<EditPetPage> {
         );
       return;
       }
-    // Now updating the instance of the adoption profile in the 'AdoptionProfiles' collection in Firebase with the passed
-      // in id of the adoption profile
+      // Now updating the instance of the Pet profile in the 'PetProfiles' collection in Firebase with the passed
+      // in id of the pet profile
       FirebaseFirestore.instance.collection("PetProfiles")
       .doc(widget.documentId)
       .update({
         'PetName': petNameController.text,
         'TypeOfPet': _selectedAnimal
     });
-    // Return to the previous screen (My Adoptions Page)
+    // Return to the previous screen (Current User Page)
     Navigator.pop(context);
   }
 
@@ -114,7 +114,7 @@ class _EditPetPageState extends State<EditPetPage> {
                     );
                   }).toList(),
                 ),
-                // Create Adoption button calling method to add data to firebase
+                // Update Pet button calling method to add data to firebase
                 MyButton(onTap: updatePet, text: 'Update Pet'),
                 const SizedBox(height:5),
               ],

@@ -13,11 +13,11 @@ class EditUserPage extends StatefulWidget {
 }
 
 class _EditUserPageState extends State<EditUserPage> {
-    final currentUser = FirebaseAuth.instance.currentUser!;
+  final currentUser = FirebaseAuth.instance.currentUser!;
   final usernameController = TextEditingController();
   final locationController = TextEditingController();
 
-  // When the page is first initialized, call the load Adoption method
+  // When the page is first initialized, call the loadUserInfo method
   @override
   void initState() {
     super.initState();
@@ -26,7 +26,7 @@ class _EditUserPageState extends State<EditUserPage> {
 
   // Method for when the page first loads up to show data
   void loadUserInfo() async{
-    // Getting the instance of the AdoptionProfile by using the passed in documentId
+    // Getting the instance of the current user by using the passed in documentId
     DocumentSnapshot snapshot = await FirebaseFirestore.instance
       .collection('Users')
       .doc(currentUser.email)
@@ -120,7 +120,7 @@ class _EditUserPageState extends State<EditUserPage> {
                 // City & State Input
                 MyTextField(controller: locationController, hintText: 'Where do you live', obscureText: false),
                 const SizedBox(height:15),
-                // Update Button calling the method to update the adoption profile in firebase 
+                // Update Button calling the method to update the user information in firebase 
                 MyButton(onTap: updateUserInfo, text: 'Update Profile Info'),
                 const SizedBox(height:5),
               ],

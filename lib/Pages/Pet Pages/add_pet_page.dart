@@ -19,6 +19,7 @@ class _AddPetPageState extends State<AddPetPage> {
   final currentUser = FirebaseAuth.instance.currentUser!;
   final petNameController = TextEditingController();
 
+  // Method to add the new pet to the firebase database
   void addPet(){
     // Check if all fields are filled before submitting
     if (petNameController.text.isEmpty || _selectedAnimal == null) {
@@ -29,15 +30,14 @@ class _AddPetPageState extends State<AddPetPage> {
         ), 
       );
     return;
-  }
-
-      // Now creating an instance of the adoption profile in the 'AdoptionProfiles' collection in Firebase
+    }
+      // Now creating an instance of the pet profile in the 'PetProfiles' collection in Firebase
       FirebaseFirestore.instance.collection("PetProfiles").add({
         'PetName': petNameController.text,
         'TypeOfPet': _selectedAnimal,
         'UserId': currentUser.email
     });
-    // Pop up back to the previous screen (My Adoptions Page) after submitting
+    // Pop up back to the previous screen (Current User Page) after submitting
     Navigator.pop(context);
   }
 
@@ -89,7 +89,7 @@ class _AddPetPageState extends State<AddPetPage> {
                     );
                   }).toList(),
                 ),
-                // Create Adoption button calling method to add data to firebase
+                // Create Pet button calling method to add data to firebase
                 MyButton(onTap: addPet, text: 'Create Pet Profile'),
                 const SizedBox(height:5),
               ],
