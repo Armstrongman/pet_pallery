@@ -1,50 +1,23 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_pallery/Components/post.dart';
 
-class PetPage extends StatefulWidget {
-  final String documentId;
-  const PetPage({super.key, required this.documentId});
+class RealHomePage extends StatefulWidget {
+  const RealHomePage({super.key});
 
   @override
-  State<PetPage> createState() => _PetPageState();
+  State<RealHomePage> createState() => _RealHomePageState();
 }
 
-class _PetPageState extends State<PetPage> {
-  String petName = '';
-
+class _RealHomePageState extends State<RealHomePage> {
+  final currentUser = FirebaseAuth.instance.currentUser!;
   @override
-  void initState() {
-    super.initState();
-    fetchPetData();
-  }
-
-  // Fetching the data of the pet to show information of it on the page
-  void fetchPetData() async {
-    // Attempting to fetch the data. If it couldn't, catch it
-    try {
-      DocumentSnapshot petSnapshot = await FirebaseFirestore.instance
-          .collection('PetProfiles')
-          .doc(widget.documentId)
-          .get();
-
-      // Just getting the name for the time being
-      if (petSnapshot.exists) {
-        setState(() {
-          petName = petSnapshot['PetName'];
-        });
-      } else {
-        print('Pet not found');
-      }
-    } catch (e) {
-      print('Error fetching pet data: $e');
-    }
-  }
-
-  @override
+  // Temporary simple widget to show the home page
   Widget build(BuildContext context) {
     return Scaffold(
-      // Appbar at the top of the screen
       appBar: AppBar(
         actions: [
           Padding(
@@ -59,7 +32,8 @@ class _PetPageState extends State<PetPage> {
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('Posts')
-          .where('PetId', isEqualTo: widget.documentId)
+          .where('UserId', isNotEqualTo: currentUser.email)
+          //.orderBy('DatePosted')
           .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {

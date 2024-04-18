@@ -65,18 +65,17 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       // This ensures that none of the widgets on this page are covered up by elements of the phones screen
-      body: SafeArea(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: Center(
-          child: Padding(
-            // Adding padding on all of the edges of our widgets
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: SingleChildScrollView(
             child: Column(
               // Center everything on the center of the page
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Image showing a temporary place holder logo
                 const Image(
-                  image: AssetImage('Assets/Images/logo-placeholder.png'),
+                  image: AssetImage('Assets/Images/pet-pallery-logo.png'),
                   width: 300,
                 ),
 
@@ -115,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ],
             ),
           ),
-        )
+          ),
       )
     );
   }

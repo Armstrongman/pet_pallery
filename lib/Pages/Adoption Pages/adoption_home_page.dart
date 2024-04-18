@@ -26,7 +26,7 @@ class _AdoptionPage extends State<AdoptionPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 100.0),
             child: Image.asset(
-          'Assets/Images/logo-placeholder.png',
+          'Assets/Images/pet-pallery-logo.png',
           width: 140,
         ),
         )
@@ -94,7 +94,7 @@ class _AdoptionPage extends State<AdoptionPage> {
                 // current user's id 
                 stream: FirebaseFirestore.instance
                     .collection('AdoptionProfiles')
-                    .where('UserId', isNotEqualTo: currentUser.uid)
+                    .where('UserId', isNotEqualTo: currentUser.email)
                     .where('TypeOfPet', isEqualTo: selectedAnimal) /*NEED TO FIX LATER*/
                     .snapshots(),
                 // Taking the data from the stream above

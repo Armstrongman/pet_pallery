@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_pallery/Pages/Adoption%20Pages/adoption_home_page.dart';
 import 'package:pet_pallery/Pages/User%20Pages/curr_user_page.dart';
-import 'package:pet_pallery/Pages/real_home_page.dart';
+import 'package:pet_pallery/Pages/Home%20Pages/real_home_page.dart';
 import 'package:pet_pallery/Pages/search_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           currentIndex: pageIndex,
           // Calling method to change page
           onTap: navigateBar,
-          selectedItemColor: Colors.blue,
+          selectedItemColor: Colors.orange,
           unselectedItemColor: Colors.black,
           // Navigation bar items that lets us go to a certain page when clicked on
           items: [

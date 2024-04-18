@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 // Image at the top of our page
                 const Image(
-                  image: AssetImage('Assets/Images/logo-placeholder.png'),
+                  image: AssetImage('Assets/Images/pet-pallery-logo.png'),
                   width: 300,
                 ),
 

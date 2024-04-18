@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_pallery/Pages/Pet%20Pages/add_pet_page.dart';
+import 'package:pet_pallery/Pages/Pet%20Pages/add_post_page.dart';
 import 'package:pet_pallery/Pages/Pet%20Pages/edit_pet_page.dart';
 import 'package:pet_pallery/Pages/Pet%20Pages/pet_page.dart';
 import 'package:pet_pallery/Pages/User%20Pages/edit_user_page.dart';
@@ -71,7 +72,7 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
               icon: Icon(Icons.logout),
             ),
             Image.asset(
-              'Assets/Images/logo-placeholder.png',
+              'Assets/Images/pet-pallery-logo.png',
               width: 140,
             ),
             // Button to allow the user to edit their profile
@@ -172,19 +173,29 @@ class _CurrentUserPageState extends State<CurrentUserPage> {
                                     // Popup menu button for edit and delete options
                                     PopupMenuButton(
                                       itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: 'add',
+                                          child: Text('Add Post'),
+                                        ),
                                         // Edit option
                                         PopupMenuItem(
                                           value: 'edit',
-                                          child: Text('Edit'),
+                                          child: Text('Edit Pet'),
                                         ),
                                         // Delete option
                                         PopupMenuItem(
                                           value: 'delete',
-                                          child: Text('Delete'),
+                                          child: Text('Delete Pet'),
                                         ),
                                       ],
                                       onSelected: (String value) {
-                                        if (value == 'edit') {
+                                        if(value == 'add'){
+                                          // Implement logic later
+                                           Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => AddPostPage(documentId: document.id)),
+                                          );
+                                        } else if (value == 'edit') {
                                           // Going to the page by passing in the documentId into the EditPetPage's constructor
                                           Navigator.push(
                                             context,
