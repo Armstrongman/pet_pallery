@@ -23,7 +23,7 @@ class _ApplicantsPageState extends State<ApplicantsPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 100.0),
             child: Image.asset(
-          'Assets/Images/logo-placeholder.png',
+          'Assets/Images/pet-pallery-logo.png',
           width: 140,
         ),
         )
@@ -112,26 +112,6 @@ class _ApplicantsPageState extends State<ApplicantsPage> {
                             ],
                           ),
                           ],)
-                          // child: Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     // Showing the Name data
-                          //     Text(
-                          //       '${data['Name']}',
-                          //       style: TextStyle(fontWeight: FontWeight.bold),
-                          //     ),
-                          //     SizedBox(height: 8.0),
-                          //     // Showing the PhoneNumber data
-                          //     Text(
-                          //       'Phone #: ${data['PhoneNumber']}',
-                          //     ),
-                          //     SizedBox(height: 8.0),
-                          //     // Showing the Reason data
-                          //     Text(
-                          //       'Reason: ${data['Reason']}',
-                          //     ),
-                          //   ],
-                          // ),
                         );
                       }).toList(),
                     ),

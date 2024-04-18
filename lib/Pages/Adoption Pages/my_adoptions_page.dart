@@ -35,8 +35,16 @@ Widget build(BuildContext context) {
   return Scaffold(
     // Appbar at the top of the screen
     appBar: AppBar(
-      title: Text('My Adoptions'),
-    ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 100.0),
+            child: Image.asset(
+          'Assets/Images/pet-pallery-logo.png',
+          width: 140,
+        ),
+        )
+        ] 
+      ),
     body: SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,7 +77,7 @@ Widget build(BuildContext context) {
               // Only grabbing the AdoptionProfiles where the instance's UserId is equal to the current user's id
               stream: FirebaseFirestore.instance
                   .collection('AdoptionProfiles')
-                  .where('UserId', isEqualTo: currentUser.uid)
+                  .where('UserId', isEqualTo: currentUser.email)
                   .snapshots(),
               // Taking the data from the stream above
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

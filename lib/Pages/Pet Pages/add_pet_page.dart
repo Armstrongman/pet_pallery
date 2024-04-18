@@ -50,7 +50,7 @@ class _AddPetPageState extends State<AddPetPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 100.0),
             child: Image.asset(
-          'Assets/Images/logo-placeholder.png',
+          'Assets/Images/pet-pallery-logo.png',
           width: 140,
         ),
         )
