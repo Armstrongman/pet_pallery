@@ -6,7 +6,7 @@
 ## Project Requirements
 - Total of 114 User Stories.
 - 2 Have been taken out of scope.
-- As of now (4/24/24), 98/112 have been completed
+- As of now (4/24/24), 99/112 have been completed
 <details>
   <summary>Functional Requirements <i>(111/112)</i></summary>
   
