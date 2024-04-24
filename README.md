@@ -194,3 +194,15 @@
 ### Logical Solution Design
 ![Logical Solution Design](https://github.com/Armstrongman/pet_pallery/assets/82784312/a25e70ff-dca8-41b8-806e-97feb5754ed7)
 - The logical solution design was made to show exactly how each of the different layers will interact with one another. Starting from the top, the presentation layer represents all of the different widgets and components that will be visible when the application is run on a mobile device. On certain components and widgets, data will be pulled from a backend database management system in Firebase using a webhook which will allow us to use both their firestore cloud database as well as their authentication service to store users and the storage of files as well. This can be seen at the bottom of the diagram. To connect this database to the application so that data within it can be shown in the presentation layer, there must be a service layer to handle this business. This helps with a good N-Layer architecture design. This layer will consists of models of each of the collections within our database as well as service classes to handle the act of putting the collections from the database to fit into our models. This sort of design is good and though out as it takes into account the separation of concerns that are needed in an app like this.
+
+## Managing Risks and Challenges
+### Challenges/Risks I had
+- Lack of Knowledge in the three main technologies: Flutter, Dart, Firebase. Managed these through the use of creating proof of concepts (POCs) to ensure that I would be able to actually complete the requirements for the application that I gave myself.
+
+## Project Phases
+### Phase 1
+Heavily backend focused and dependent. Connection to database and manipulating and showing data to and from database. Phase 1 will be completed once all user stories have been completed
+### Phase 2
+The look and feel of the App. How each page looks, not necessarily functions. Make app look more pleasing to the eye. Very frontend heavy focusing on both UI/UX of the application
+### Phase 3
+Deploy mobile application to app stores across multiple different types of devices (App Store & Google Play)
