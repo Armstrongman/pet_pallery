@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pet_pallery/Components/post.dart';
 
 class PetPage extends StatefulWidget {
+  // Passing in the id in order to ensure we only show this pet's post on this page
   final String documentId;
   const PetPage({super.key, required this.documentId});
 
@@ -57,6 +58,7 @@ class _PetPageState extends State<PetPage> {
         ] 
       ),
       body: SafeArea(
+        // Building a stream builder to show all of the posts associated with this pet based on the passed in id
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('Posts')
           .where('PetId', isEqualTo: widget.documentId)
@@ -64,12 +66,14 @@ class _PetPageState extends State<PetPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final posts = snapshot.data!.docs;
+              // Showing all of the post in a listview of PostItems
               return ListView.builder(
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   final post = posts[index];
                   return FutureBuilder(
                     future: Future.wait([
+                      // Getting information from the pet as well as the user associated with this post by using their ids
                       FirebaseFirestore.instance.collection('PetProfiles').doc(post['PetId']).get(),
                       FirebaseFirestore.instance.collection('Users').doc(post['UserId']).get(),
                     ]),
@@ -79,11 +83,15 @@ class _PetPageState extends State<PetPage> {
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {
+                        // Setting petData and userData equal to their respective instances of a pet and user in the database
                         final petData = snapshot.data![0];
                         final userData = snapshot.data![1];
+                        // Making a PostItem of this current post instance from inside of the database
                         return PostItem(
                           petName: petData['PetName'],
+                          userId: userData.id,
                           username: userData['username'],
+                          postId: post.id,
                           description: post['Description'],
                           imageUrl: post['ImageUrl'],
                           datePosted: post['DatePosted'].toDate(),
@@ -93,6 +101,7 @@ class _PetPageState extends State<PetPage> {
                   );
                 },
               );
+              // If an eror occured while trying to load in the page, tell the user
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {

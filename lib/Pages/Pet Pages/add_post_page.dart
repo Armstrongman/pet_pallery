@@ -8,23 +8,6 @@ import 'package:pet_pallery/Components/text_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class Post {
-  final String petId;
-  final String description;
-  final String imageUrl;
-
-  Post({required this.petId, required this.description, required this.imageUrl});
-
-  // Convert a Post object into a Map<String, dynamic> for Firebase
-  Map<String, dynamic> toJson() {
-    return {
-      'petId': petId,
-      'description': description,
-      'imageUrl': imageUrl,
-    };
-  }
-}
-
 class AddPostPage extends StatefulWidget {
   final String documentId;
   const AddPostPage({super.key, required this.documentId});
@@ -34,27 +17,33 @@ class AddPostPage extends StatefulWidget {
 }
 
 class _AddPostPageState extends State<AddPostPage> {
+  // Getting current user for certain needed user information
   final currentUser = FirebaseAuth.instance.currentUser!;
+  // Getting a reference to the directory in firebase storage where the image will be uploaded to
   Reference referenceDirImages=FirebaseStorage.instance.ref().child('posts');
 
+  // Initializing some variables
   File? _imageFile;
   final picker = ImagePicker();
   final descriptionController = TextEditingController();
   String imageUrl = '';
 
+  // Method to pick an image from the phone
   Future<void> _pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    // If an image was picked, update the path of the file
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
-        //print('${_imageFile?.path}');
       });
     }
   }
 
+  // Method to upload the post to the database
   Future<void> uploadPost() async {
     if (_imageFile == null) return; // No image selected
 
+    // Making sure the name of the file is unique
     String uniqueFileName=DateTime.now().millisecondsSinceEpoch.toString();
     // Upload image to Firebase Storage
     Reference ref = referenceDirImages.child(uniqueFileName);
@@ -68,7 +57,7 @@ class _AddPostPageState extends State<AddPostPage> {
       print('Was not able to upload image to storage.');
     }
 
-      // Now creating an instance of the pet profile in the 'PetProfiles' collection in Firebase
+      // Now creating an instance of the post in the 'Posts' collection in Firebase
       FirebaseFirestore.instance.collection("Posts").add({
         'PetId': widget.documentId,
         'UserId': currentUser.email,
@@ -129,11 +118,10 @@ class _AddPostPageState extends State<AddPostPage> {
                 SizedBox(height: 20),
                 const Text("Upload a Post"),
                 const SizedBox(height:25),
-                // Every input widget uses the custom TextField component we made
                 // Description Input
                 MyTextField(controller: descriptionController, hintText: 'Post Description', obscureText: false),
                 const SizedBox(height:15),
-                // Submit Application Button
+                // Submit Post Button
                 MyButton(onTap: uploadPost, text: 'Upload Post'),
                 const SizedBox(height:5),
               ],
