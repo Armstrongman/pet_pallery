@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Armstrongman/pet_pallery/assets/82784312/356527f0-7bde-46e9-93fe-5d314e2207f8">
+  <img src="https://github.com/Armstrongman/pet_pallery/assets/82784312/7b8ca02b-d640-4aaf-824c-8bd6b72e4f1b">
 </p>
 
 # Pet Pallery
