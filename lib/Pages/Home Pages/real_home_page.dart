@@ -13,9 +13,10 @@ class RealHomePage extends StatefulWidget {
 }
 
 class _RealHomePageState extends State<RealHomePage> {
+  // Getting infromation from the current user
+
   final currentUser = FirebaseAuth.instance.currentUser!;
   @override
-  // Temporary simple widget to show the home page
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -31,19 +32,21 @@ class _RealHomePageState extends State<RealHomePage> {
       ),
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(
+          // Building a stream with posts collection where the userId of the post is not equal to the current user's id
           stream: FirebaseFirestore.instance.collection('Posts')
           .where('UserId', isNotEqualTo: currentUser.email)
-          //.orderBy('DatePosted')
           .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final posts = snapshot.data!.docs;
+              // Showing all of the post in a listview of PostItems
               return ListView.builder(
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   final post = posts[index];
                   return FutureBuilder(
                     future: Future.wait([
+                      // Getting information from the pet as well as the user associated with this post by using their ids
                       FirebaseFirestore.instance.collection('PetProfiles').doc(post['PetId']).get(),
                       FirebaseFirestore.instance.collection('Users').doc(post['UserId']).get(),
                     ]),
@@ -53,11 +56,15 @@ class _RealHomePageState extends State<RealHomePage> {
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {
+                        // Setting petData and userData equal to their respective instances of a pet and user in the database
                         final petData = snapshot.data![0];
                         final userData = snapshot.data![1];
+                        // Making a PostItem of this current post instance from inside of the database
                         return PostItem(
                           petName: petData['PetName'],
+                          userId: userData.id,
                           username: userData['username'],
+                          postId: post.id,
                           description: post['Description'],
                           imageUrl: post['ImageUrl'],
                           datePosted: post['DatePosted'].toDate(),
@@ -67,6 +74,7 @@ class _RealHomePageState extends State<RealHomePage> {
                   );
                 },
               );
+              // If an eror occured while trying to load in the page, tell the user
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
